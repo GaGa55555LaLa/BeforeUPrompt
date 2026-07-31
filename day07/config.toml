@@ -1,0 +1,8 @@
+[tracking]
+samples = 8
+coverage_threshold = 0.5
+items = ["rice", "milk", "eggs"]
+
+[output]
+directory = "results"
+save_raw_data = true

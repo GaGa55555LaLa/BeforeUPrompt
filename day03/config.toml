@@ -1,0 +1,7 @@
+[tracking]
+samples = 8
+coverage_threshold = 0.5
+
+[output]
+directory = "results"
+save_raw_data = true

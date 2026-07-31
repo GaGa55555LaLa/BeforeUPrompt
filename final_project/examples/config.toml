@@ -1,0 +1,7 @@
+[tracking]
+baseline = "S01"
+min_coverage = 0.5
+required_items = ["rice", "milk", "eggs"]
+
+[output]
+indent = 2

@@ -1,0 +1,24 @@
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# gate.py evidence artifacts — generated per attempt, not source of truth
+.gate_state.json
+.gate_report.md
+.gate_review.log
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# final_project build output
+final_project/report.json
+final_project/*.egg-info/
