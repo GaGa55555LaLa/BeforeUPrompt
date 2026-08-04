@@ -47,7 +47,7 @@ is_valid = (price > 0) and (count <= 10)
 
 ### Truthy／falsy：`if` 判斷的不只是 `bool`
 
-`if` 後面接的值不一定要是 `True`/`False`，Python 會自動判斷「這個值算不算真」：`0`、`0.0`、`""`（空字串）、`[]`（空 list）、`{}`（空 dict）、`None` 都算 falsy（視為假）；其他大多數值都算 truthy（視為真）。這代表 `if my_list:` 跟 `if len(my_list) > 0:` 效果一樣，但**要小心**：`if score:` 在 `score = 0` 時會被當成「沒有值」跳過,即使 `0` 是一個合法的分數——這正是這套訓練後面（day01）會提到的「為什麼不能用回傳 0 代表『沒有輸入』」的同一個陷阱。
+`if` 後面接的值不一定要是 `True`/`False`，Python 會自動判斷「這個值算不算真」：`0`、`0.0`、`""`（空字串）、`[]`（空 list）、`{}`（空 dict）、`None` 都算 falsy（視為假）；其他大多數值都算 truthy（視為真）。這代表 `if my_list:` 跟 `if len(my_list) > 0:` 效果一樣，但要小心：`if score:` 在 `score = 0` 時會被當成「沒有值」跳過，即使 `0` 是一個合法的分數。這正是這套訓練後面（day01）會提到的陷阱：為什麼不能用回傳 0 代表「沒有輸入」。
 
 ## 字串
 
@@ -73,7 +73,7 @@ s[-1]     # "o"，負數索引代表從尾端數
 s[1:3]    # "el"，取索引 1 到 2（不包含 3）
 ```
 
-字串是不可變的（immutable）——`s.replace(...)`、`s.strip()` 都是回傳一個新字串，不會改動原本的 `s`。
+字串是不可變的（immutable）：`s.replace(...)`、`s.strip()` 都是回傳一個新字串，不會改動原本的 `s`。
 
 ## 控制流程
 
@@ -124,7 +124,7 @@ match status_code:
         print("未知狀態")
 ```
 
-看到這個語法，先當成 `if`/`elif`/`else` 的另一種寫法即可——day10 的 `CONCEPTS.md` 會再講它真正好用的場景。
+看到這個語法，先當成 `if`/`elif`/`else` 的另一種寫法即可，day10 的 `CONCEPTS.md` 會再講它真正好用的場景。
 
 ## 基本資料結構
 
@@ -153,7 +153,7 @@ seen = {"S01", "S02"}
 "S01" in seen        # True，比在 list 裡找快很多（尤其資料量大時）
 ```
 
-`[]`、`()`、`{}` 也可以用 comprehension（生成式）一行寫出一個新的 list/dict/set，例如 `[x * 2 for x in items]`——這套訓練的 day17（OOP 那天）會實際用到 dict comprehension，這裡先知道語法長什麼樣就好。
+`[]`、`()`、`{}` 也可以用 comprehension（生成式）一行寫出一個新的 list/dict/set，例如 `[x * 2 for x in items]`。這套訓練的 day17（OOP 那天）會實際用到 dict comprehension，這裡先知道語法長什麼樣就好。
 
 ## 函式
 
@@ -167,11 +167,11 @@ add(1.0)        # 1.0，b 用預設值 0.0
 add(b=2.0, a=1.0)  # 3.0，用參數名稱指定，順序可以不同
 ```
 
-- `-> float` 跟 `a: float` 是型別標註（type hint），告訴人跟工具「這裡預期是什麼型別」，但 Python **執行期不會強制檢查**——這套訓練從 day01 就要求寫型別標註，`CONCEPTS.md` 會講更多。
+- `-> float` 跟 `a: float` 是型別標註（type hint），告訴人跟工具「這裡預期是什麼型別」，但 Python **執行期不會強制檢查**。這套訓練從 day01 就要求寫型別標註，`CONCEPTS.md` 會講更多。
 - 函式可以回傳多個值，其實是回傳一個 tuple：`def minmax(xs): return min(xs), max(xs)`，呼叫端用 `lo, hi = minmax(xs)` 拆開。
 - 沒有寫 `return` 的函式，呼叫後會拿到 `None`。
 
-## `if __name__ == "__main__":` 是什麼——每一天的 `solution.py` 結尾都有這一段
+## `if __name__ == "__main__":` 是什麼？每一天的 `solution.py` 結尾都有這一段
 
 從 day01 開始，每天的 `solution.py` 骨架結尾都長這樣：
 
@@ -189,9 +189,9 @@ if __name__ == "__main__":
 - **直接執行**這個檔案（`python solution.py`）時，Python 會把這個檔案的 `__name__` 設成字串 `"__main__"`。
 - 這個檔案被**匯入**（例如 `test_solution.py` 裡寫 `from solution import mean`）時，`__name__` 會是這個模組的名字（`"solution"`），不是 `"__main__"`。
 
-所以 `if __name__ == "__main__":` 的意思是「只有在直接執行這個檔案時才做這件事，被別人 `import` 的時候不要做」。**這正是這套訓練每天的測試能運作的關鍵**：`test_solution.py` 需要 `import solution` 才能呼叫裡面的函式來測試，如果沒有這個 `if` 保護，光是 `import` 這個動作就會把 `main()` 整套 CLI 邏輯也順便跑一次（可能因為讀不到命令列參數而直接報錯）——這也是為什麼 day08 之後規格會要求 `main(argv: list[str] | None = None)` 這種可以被直接呼叫測試的寫法，而不是讓 `main()` 內部自己去讀 `sys.argv`。
+所以 `if __name__ == "__main__":` 的意思是「只有在直接執行這個檔案時才做這件事，被別人 `import` 的時候不要做」。這正是這套訓練每天的測試能運作的關鍵：`test_solution.py` 需要 `import solution` 才能呼叫裡面的函式來測試，如果沒有這個 `if` 保護，光是 `import` 這個動作就會把 `main()` 整套 CLI 邏輯也順便跑一次（可能因為讀不到命令列參數而直接報錯）。這也是為什麼 day08 之後規格會要求 `main(argv: list[str] | None = None)` 這種可以被直接呼叫測試的寫法，而不是讓 `main()` 內部自己去讀 `sys.argv`。
 
-`raise SystemExit(main())` 則是「呼叫 `main()`，拿到它回傳的整數，把這個整數變成程式真正的結束狀態碼（exit code）」。`SystemExit` 是一個特殊的例外，Python 直譯器在最外層看到它時，不會印出 traceback、而是直接用你給的整數結束整個程式。如果只寫 `main()`（不包 `raise SystemExit(...)`），`main()` 回傳的 `2` 或 `3` 會被默默丟掉，程式對外看到的結束狀態碼永遠是 `0`（成功）——不管 `main()` 內部實際判斷發生了什麼錯誤。**這正是 day04 會深入講的 exit code 機制,底層用的就是這一行**：`sys.exit(code)` 跟 `raise SystemExit(code)`做的是同一件事,這套訓練的骨架選了後者。
+`raise SystemExit(main())` 則是「呼叫 `main()`，拿到它回傳的整數，把這個整數變成程式真正的結束狀態碼（exit code）」。`SystemExit` 是一個特殊的例外，Python 直譯器在最外層看到它時，不會印出 traceback、而是直接用你給的整數結束整個程式。如果只寫 `main()`（不包 `raise SystemExit(...)`），`main()` 回傳的 `2` 或 `3` 會被默默丟掉，程式對外看到的結束狀態碼永遠是 `0`（成功），不管 `main()` 內部實際判斷發生了什麼錯誤。這正是 day04 會深入講的 exit code 機制，底層用的就是這一行：`sys.exit(code)` 跟 `raise SystemExit(code)` 做的是同一件事，這套訓練的骨架選了後者。
 
 ## 例外處理入門
 
@@ -204,14 +204,14 @@ except ZeroDivisionError:
     print("不能除以零")
 ```
 
-`try` 區塊裡的程式碼正常執行；如果拋出符合 `except` 指定型別的例外，就跳進對應的 `except` 區塊，不會讓程式整個中斷。這只是最小介紹——**這套訓練的 day04 會深入講什麼時候該自己 `raise`、什麼時候該 `except`、為什麼 `except Exception: pass` 是地雷**，這裡先知道語法長這樣，能讀懂錯誤訊息在說什麼就夠了。
+`try` 區塊裡的程式碼正常執行；如果拋出符合 `except` 指定型別的例外，就跳進對應的 `except` 區塊，不會讓程式整個中斷。這只是最小介紹，這套訓練的 day04 會深入講什麼時候該自己 `raise`、什麼時候該 `except`、為什麼 `except Exception: pass` 是地雷，這裡先知道語法長這樣，能讀懂錯誤訊息在說什麼就夠了。
 
 ## 常見陷阱（先知道，之後少踩一次）
 
 - **縮排不一致**：同一個區塊裡混用 tab 跟空格，或縮排數量不一致，會直接 `IndentationError`。編輯器設定「Tab 轉空格」可以避免大部分問題。
 - **`range(n)` 不包含 `n`**：`range(3)` 是 `0, 1, 2`，這是每個新手都會踩一次的 off-by-one（差一錯誤）。
 - **浮點數不要用 `==` 比較**：`0.1 + 0.2 == 0.3` 在 Python 裡是 `False`（浮點數運算有精度誤差），要比較浮點數該用 `abs(a - b) < 0.0001` 這種容忍誤差的寫法。
-- **函式預設值不要用 `[]`／`{}`**：`def f(x=[]):` 這個空 list 只會在函式定義時建立一次，所有呼叫共用同一份——這套訓練的 `final_project/CONCEPTS.md` 會用真實案例講這個地雷，這裡先知道「看到預設值是空容器要多想一下」。
+- **函式預設值不要用 `[]`／`{}`**：`def f(x=[]):` 這個空 list 只會在函式定義時建立一次，所有呼叫共用同一份。這套訓練的 `final_project/CONCEPTS.md` 會用真實案例講這個地雷，這裡先知道「看到預設值是空容器要多想一下」。
 
 ## 下一步
 

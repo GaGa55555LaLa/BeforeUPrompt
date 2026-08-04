@@ -2,9 +2,9 @@
 
 這份作業包的目標是恢復「從空白檔案開始，把需求轉成可執行、可測試程式」的能力，而不是要求完全不使用 AI。
 
-**進度不是重點，看懂才是。** 每天標的 dayXX 只是難度遞增的順序，不是日曆上的天數——花三天搞懂 day03 也比為了趕進度含糊帶過好。真正的驗收標準是：你能不能看懂、解釋、並在需求改變時修改一份程式（包括 AI 幫你生成的程式），而不是「跑得動就過」。每個 `dayXX/` 底下除了規格 `README.md`，還有一份 `CONCEPTS.md`——那是延伸知識，講這個主題實務上（包括 AI Agent）通常怎麼設計、常見的地雷長什麼樣子。什麼時候看隨你：先看建立心智模型，或解完再看驗證自己的判斷，兩種都合理。
+**進度不是重點，看懂才是。** 每天標的 dayXX 只是難度遞增的順序，不是日曆上的天數，花三天搞懂 day03 也比為了趕進度含糊帶過好。真正的驗收標準是：你能不能看懂、解釋、並在需求改變時修改一份程式（包括 AI 幫你生成的程式），而不是「跑得動就過」。每個 `dayXX/` 底下除了規格 `README.md`，還有一份 `CONCEPTS.md`，那是延伸知識，講這個主題實務上（包括 AI Agent）通常怎麼設計、常見的地雷長什麼樣子。什麼時候看隨你：先看建立心智模型，或解完再看驗證自己的判斷，兩種都合理。
 
-day01 開始就假設你已經會寫 `if`/`for`/`while`、認識 `list`/`dict`/`tuple`、會定義函式——這份訓練練的是「把需求變成程式」的能力，不是從零教語法。如果這些語法對你來說還有點生疏，先看 [`PRIMER.md`](PRIMER.md)（不計分、不進 `gate.py` 流程，純參考）。
+day01 開始就假設你已經會寫 `if`/`for`/`while`、認識 `list`/`dict`/`tuple`、會定義函式。這份訓練練的是「把需求變成程式」的能力，不是從零教語法。如果這些語法對你來說還有點生疏，先看 [`PRIMER.md`](PRIMER.md)（不計分、不進 `gate.py` 流程，純參考）。
 
 ## 開始前要讀的文件
 
@@ -54,7 +54,7 @@ source .venv/bin/activate
 8. 執行 `python ../gate.py finish`，產生 `.gate_report.md` evidence 報告；再請 Claude Code 用 `reviewer` 子代理（見 `.claude/agents/reviewer.md`）對照 `RUBRIC.md` 評分，例如：「用 reviewer 幫我評 day05」。
 9. 至少進行一次 Git commit。
 
-單天核心實作約 50～70 分鐘，但這是下限不是上限——`CONCEPTS.md` 想看多久、要不要多做一輪重構練習，都是你自己抓。
+單天核心實作約 50～70 分鐘，但這是下限不是上限，`CONCEPTS.md` 想看多久、要不要多做一輪重構練習，都是你自己抓。
 
 ## 完成標準
 
@@ -71,12 +71,12 @@ source .venv/bin/activate
 
 不計入兩週核心天數，涵蓋前 14 天沒觸及、但實務上同樣常見的主題，難度由淺到深排列，流程與 `gate.py`／`reviewer` 用法跟前面完全相同：
 
-- `day15/`：手動操作 `sys.path`——什麼情境下這是合理選擇（vendoring、plugin 系統、離線環境），怎麼寫成跟目前工作目錄無關、可重複呼叫不出現重複項目。
+- `day15/`：手動操作 `sys.path`，什麼情境下這是合理選擇（vendoring、plugin 系統、離線環境），怎麼寫成跟目前工作目錄無關、可重複呼叫不出現重複項目。
 - `day16/`：`ruff`／`mypy` 這類靜態檢查工具在抓什麼、`conftest.py` 如何在不 import 的情況下讓多個測試共用 fixture、`@pytest.mark.parametrize` 何時該用、何時不該硬套。
 - `day17/`：一般 class（有方法、有狀態，跟 day10 只裝資料的 `frozen dataclass` 不同）與 context manager（`with` 陳述式背後的 `__enter__`/`__exit__` 協定，以及 `contextlib.contextmanager`）。
-- `day18/`：抽象基底類別（`ABC`／`@abstractmethod`）與「一個介面，多種實作」——真實專案裡最常見的物件導向設計模式，跟 day17 的差別是這天引入繼承。
-- `day19/`：`asyncio` 基礎——`async`/`await`、`asyncio.gather` 的 fail-fast 模式、`time.sleep()` 誤用在 async 函式裡會悄悄吃掉並行效果的地雷。
+- `day18/`：抽象基底類別（`ABC`／`@abstractmethod`）與「一個介面，多種實作」，真實專案裡最常見的物件導向設計模式，跟 day17 的差別是這天引入繼承。
+- `day19/`：`asyncio` 基礎，`async`/`await`、`asyncio.gather` 的 fail-fast 模式、`time.sleep()` 誤用在 async 函式裡會悄悄吃掉並行效果的地雷。
 
 ## 貢獻
 
-歡迎回報錯誤、改進說明、提議新主題——**但請先看過 [`CONTRIBUTING.md`](CONTRIBUTING.md)**，這個專案對「哪些貢獻歡迎」有一些跟一般軟體專案不同的限制（例如不收填好的練習解答）。參與討論與貢獻請遵守 [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)。本專案以 [MIT License](LICENSE) 授權。
+歡迎回報錯誤、改進說明、提議新主題，但請先看過 [`CONTRIBUTING.md`](CONTRIBUTING.md)，這個專案對「哪些貢獻歡迎」有一些跟一般軟體專案不同的限制（例如不收填好的練習解答）。參與討論與貢獻請遵守 [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)。本專案以 [MIT License](LICENSE) 授權。
